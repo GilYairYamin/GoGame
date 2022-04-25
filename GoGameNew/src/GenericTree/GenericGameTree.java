@@ -9,6 +9,7 @@ public class GenericGameTree {
 
     public static final int MIN_POSSIBLE = Integer.MIN_VALUE + 10;
     public static final int MAX_POSSIBLE = Integer.MAX_VALUE - 10;
+    
     private GameInterface game;
     private Player currentTurn;
     private List<GameMove> possibleMoves;
@@ -22,9 +23,10 @@ public class GenericGameTree {
 
     private void init(int depth) {
         this.possibleMoves = game.getPossibleMoves(currentTurn);
-        shuffleList(this.possibleMoves);
+        shuffleList();
 
         this.eval = new int[this.possibleMoves.size()];
+
         int i = 0;
         for (GameMove move : possibleMoves) {
             eval[i++] = -negamax(move, depth, MIN_POSSIBLE, MAX_POSSIBLE, currentTurn);
@@ -43,10 +45,9 @@ public class GenericGameTree {
     private int negamax(GameMove currentMove, int depth, int alpha, int beta, Player p) {
         game.makeMove(currentMove);
         int value = MIN_POSSIBLE;
-        if (depth <= 0){
+        if (depth <= 0) {
             value = game.evaluate(p);
-        }
-        else {
+        } else {
             Player enemy = p.getEnemy();
             List<GameMove> childMoves = game.getPossibleMoves(enemy);
             for (GameMove childMove : childMoves) {
@@ -60,17 +61,18 @@ public class GenericGameTree {
         return value;
     }
 
-    private void shuffleList(List<GameMove> list) {
+    private void shuffleList() {
         Random rnd = new Random();
         List<GameMove> temp = new LinkedList<>();
-        while (!list.isEmpty()) {
-            temp.add(list.remove(rnd.nextInt(list.size())));
-        }
-        while (!temp.isEmpty())
-            list.add(temp.remove(rnd.nextInt(temp.size())));
+
+        for (int i = possibleMoves.size(); i > 0; i--)
+            temp.add(possibleMoves.remove(rnd.nextInt(i)));
+
+        for (int i = temp.size(); i > 0; i--)
+            possibleMoves.add(temp.remove(rnd.nextInt(i)));
     }
 
-    public String printEval(){
+    public String printEval() {
         return Arrays.toString(eval);
     }
 }
