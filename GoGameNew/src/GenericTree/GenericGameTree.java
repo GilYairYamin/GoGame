@@ -26,10 +26,13 @@ public class GenericGameTree {
         shuffleList();
 
         this.eval = new int[this.possibleMoves.size()];
-
+        int alpha = MIN_POSSIBLE;
+        int beta = MAX_POSSIBLE;
         int i = 0;
         for (GameMove move : possibleMoves) {
-            eval[i++] = -negamax(move, depth, MIN_POSSIBLE, MAX_POSSIBLE, currentTurn);
+            eval[i] = -negamax(move, depth, -beta, -alpha, currentTurn);
+            alpha = Math.max(alpha, eval[i]);
+            i++;
         }
     }
 
