@@ -43,13 +43,15 @@ public class ControlPanel extends JPanel
 		return passButton;
 	}
 
-	public void setListener(MouseListener listener)
+	public void setListeners(MouseListener listener)
 	{
 		passButton.addMouseListener(listener);
+		undoButton.addMouseListener(listener);
 	}
 
 	public void removeListener(MouseListener listener)
 	{
 		passButton.removeMouseListener(listener);
+		undoButton.removeMouseListener(listener);
 	}
 }

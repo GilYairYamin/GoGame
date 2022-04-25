@@ -5,13 +5,15 @@ import GenericTree.GameMove;
 import java.awt.*;
 
 public class GoMove implements GameMove {
+    public static final int PASS = -1;
+    public static final int UNDO = -2;
 
-    private final int row;
-    private final int col;
-    private final Tool player;
+    private int row;
+    private int col;
+    private Tool player;
 
     public GoMove(Tool player){
-        this(-1, -1, player);
+        this(PASS, PASS, player);
     }
 
     public GoMove(int row, int col, Tool player) {
@@ -50,6 +52,18 @@ public class GoMove implements GameMove {
     }
 
     public boolean isPass() {
-        return this.row == -1 && this.col == -1;
+        return this.row == PASS;
+    }
+
+    public boolean isUndo(){
+        return this.row == UNDO;
+    }
+
+    public void setUndo() {
+        this.row = UNDO;
+    }
+
+    public void setPass() {
+        this.row = PASS;
     }
 }

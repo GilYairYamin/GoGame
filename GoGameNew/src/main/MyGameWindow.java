@@ -9,6 +9,7 @@ public class MyGameWindow extends JFrame implements MouseListener {
     public static final int DEFUALT_SIZE = 19;
     public static final int DEFAULT_BLACK_DEAPTH = -1;
     public static final int DEFAULT_WHITE_DEAPTH = 0;
+    public static final int MAX_DEPTH = GoGameLoop.MAX_DEPTH;
 
     private Thread gameThread;
     private GoGameLoop goGameLoop;
@@ -48,15 +49,17 @@ public class MyGameWindow extends JFrame implements MouseListener {
 
     private JMenuItem createBlackPlayerMenu() {
         JMenu menu = new JMenu("Black");
-        JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[2];
-        buttons[0] = new JRadioButtonMenuItem("Human");
-        buttons[0].addActionListener(e -> {
-            goGameLoop.setBlackDepth(-1);
-        });
-        buttons[1] = new JRadioButtonMenuItem("Dumb Computer");
-        buttons[1].addActionListener(e -> {
-            goGameLoop.setBlackDepth(0);
-        });
+        JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[MAX_DEPTH];
+        
+        for(int i = 0; i < buttons.length; i++){
+            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + i);
+
+            final int x = i-1;
+            buttons[i].addActionListener(e -> {
+                goGameLoop.setBlackDepth(x);
+            });
+        }
+        buttons[0].setText("Human");
 
         ButtonGroup group = new ButtonGroup();
         for (JRadioButtonMenuItem button : buttons) {
@@ -69,15 +72,17 @@ public class MyGameWindow extends JFrame implements MouseListener {
 
     private JMenuItem createWhitePlayerMenu() {
         JMenu menu = new JMenu("White");
-        JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[2];
-        buttons[0] = new JRadioButtonMenuItem("Human");
-        buttons[0].addActionListener(e -> {
-            goGameLoop.setWhiteDepth(-1);
-        });
-        buttons[1] = new JRadioButtonMenuItem("Dumb Computer");
-        buttons[1].addActionListener(e -> {
-            goGameLoop.setWhiteDepth(0);
-        });
+        JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[MAX_DEPTH];
+        
+        for(int i = 0; i < buttons.length; i++){
+            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + i);
+
+            final int x = i-1;
+            buttons[i].addActionListener(e -> {
+                goGameLoop.setWhiteDepth(x);
+            });
+        }
+        buttons[0].setText("Human");
 
         ButtonGroup group = new ButtonGroup();
         for (JRadioButtonMenuItem button : buttons) {

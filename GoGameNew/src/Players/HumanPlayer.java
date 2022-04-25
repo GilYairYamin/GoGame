@@ -50,6 +50,12 @@ public class HumanPlayer extends GoPlayer implements MouseListener {
             JButton b = (JButton) e.getSource();
             if(b.getText().equals("Pass"))
                 this.wantedMove = new GoMove(-1, -1, tool);
+            if(b.getText().equals("Undo"))
+            {
+                GoMove move = new GoMove(this.tool);
+                move.setUndo();
+                this.wantedMove = move;
+            }
         }
     }
 

@@ -29,6 +29,18 @@ public class GoBoard implements GameInterface {
         this.undoStack = new Stack<>();
     }
 
+    public GoBoard(GoBoard other){
+        this(other.board.length);
+        this.copyBoardState(other);
+        this.copyStack(other);
+    }
+
+    private void copyStack(GoBoard other) {
+        for(GoUndoMove undoMove: other.undoStack){
+            this.undoStack.add(new GoUndoMove(undoMove));
+        }
+    }
+
     public GoBoard(int size) {
         board = new GoGame.Tool[size][size];
         init();
@@ -46,7 +58,7 @@ public class GoBoard implements GameInterface {
         return captured.get(t);
     }
 
-    public void copyBoardState(GoBoard other) {
+    private void copyBoardState(GoBoard other) {
         if (this.board.length != other.board.length)
             return;
         for (int i = 0; i < this.board.length; i++)
@@ -60,7 +72,7 @@ public class GoBoard implements GameInterface {
         return this.board.length;
     }
 
-    public List<GoMove> getPossibleMoves(GoGame.Tool p) {
+    public List<GoMove> getPossibleMoves(Tool p) {
         List<GoMove> res = new LinkedList<>();
         GoMove temp;
         for (int i = 0; i < board.length; i++)
@@ -69,8 +81,9 @@ public class GoBoard implements GameInterface {
                 if (isMoveLegal(temp))
                     res.add(temp);
             }
-        // add Pass.
-        res.add(new GoMove(p));
+        GoMove pass = new GoMove(p);
+        pass.setPass();
+        res.add(pass);
         return res;
     }
 
@@ -95,12 +108,26 @@ public class GoBoard implements GameInterface {
 
         board[row][col] = move.getTool();
         boolean res = isGroupAlive(row, col);
-        res = res || didCapture(row, col);
+        res = res || didCapture(row, col) && !isRepeat(row, col);
+
         board[row][col] = GoGame.Tool.EMPTY;
         return res;
     }
 
-    public boolean didCapture(int row, int col) {
+    private boolean isRepeat(int row, int col){
+        if(this.undoStack.isEmpty())
+            return false;
+
+        List<int[]> removedSpots = undoStack.peek().getRemovedSpots();
+        if(removedSpots.size() != 1)
+            return false;
+
+        int[] arr = removedSpots.get(0);
+        if(row != arr[0] || col != arr[1])
+            return false;
+        return true;
+    }
+    private boolean didCapture(int row, int col) {
         int tempRow, tempCol;
         for (int[] dir : POSSIBLE_DIR) {
             tempRow = row + dir[0];
@@ -168,6 +195,7 @@ public class GoBoard implements GameInterface {
     private boolean commitMove(GoMove move) {
         if (!isMoveLegal(move))
             return false;
+        
         GoUndoMove undo;
         if (move.isPass()) {
             undo = new GoUndoMove(move);
@@ -246,8 +274,6 @@ public class GoBoard implements GameInterface {
         Tool t = playerToTool(p);
         Tool enemy = t.getEnemy();
         int eval = captured.get(t) - captured.get(enemy);
-        if(eval != 0)
-            System.out.println(eval);
         return eval;
     }
 

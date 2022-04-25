@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class GoGameLoop implements Runnable {
 
-    public static final int REST_TIME = 100;
+    public static final int REST_TIME = 50;
 
     public static final int HUMAN = -1;
     public static final int MAX_DEPTH = 5;
@@ -46,19 +46,30 @@ public class GoGameLoop implements Runnable {
         while (running) {
             if (blackTurn) {
                 move = black.getWantedMove();
-                this.board.makeMove(move);
+
             } else {
                 move = white.getWantedMove();
-                this.board.makeMove(move);
             }
-
+            
+            if (move.isUndo()) {
+                this.board.undoMove();
+                this.board.undoMove();
+            } else {
+                this.board.makeMove(move);
+                blackTurn = !blackTurn;
+            }
             this.vBoard.updateGame();
-            passCounter = move.isPass() ? passCounter + 1 : 0;
+            if (move.isPass()) {
+                passCounter++;
+                if (passCounter < 2)
+                    JOptionPane.showMessageDialog(null, "Player passed.");
+            } else
+                passCounter = 0;
+
             if (passCounter >= 2) {
                 running = false;
                 JOptionPane.showMessageDialog(null, "Both players passed.");
             }
-            blackTurn = !blackTurn;
             try {
                 Thread.sleep(REST_TIME);
             } catch (InterruptedException e) {
@@ -107,13 +118,13 @@ public class GoGameLoop implements Runnable {
     public void resetGame(int size) {
         this.stopRunning();
         this.board = new GoBoard(size);
-        this.vBoard = new VisualGame(board);
+        this.vBoard = new VisualGame(this);
     }
 
     private void init(int size, int blackDepth, int whiteDepth) {
         this.running = false;
         this.board = new GoBoard(size);
-        this.vBoard = new VisualGame(board);
+        this.vBoard = new VisualGame(this);
 
         this.black = createPlayer(Tool.BLACK, blackDepth);
         this.white = createPlayer(Tool.WHITE, whiteDepth);

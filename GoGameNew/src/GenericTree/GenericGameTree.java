@@ -1,5 +1,6 @@
 package GenericTree;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -64,5 +65,9 @@ public class GenericGameTree {
         }
         while (!temp.isEmpty())
             list.add(temp.remove(rnd.nextInt(temp.size())));
+    }
+
+    public String printEval(){
+        return Arrays.toString(eval);
     }
 }

@@ -1,7 +1,7 @@
 package goVisual;
 
-import GoGame.GoBoard;
 import GoGame.GoMove;
+import main.GoGameLoop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class VisualGame extends JPanel {
 
-    private GoBoard goBoard;
+    private GoGameLoop goBoard;
     private static String BLACK = "Black captured: ";
     private static String WHITE = "White captured: ";
    
@@ -19,14 +19,14 @@ public class VisualGame extends JPanel {
     private JPanel capturedPanel;
     private JLabel capturedText;
 
-    public VisualGame(GoBoard goBoard) {
+    public VisualGame(GoGameLoop goBoard) {
         super();
         init(goBoard);
     }
 
-    private void init(GoBoard goBoard) {
-        this.goBoard = goBoard;
-        this.visualBoard = new VisualBoard(goBoard);
+    private void init(GoGameLoop goGameLoop) {
+        this.goBoard = goGameLoop;
+        this.visualBoard = new VisualBoard(goGameLoop.getGoBoard());
         this.controlPanel = new ControlPanel();
         this.capturedPanel = new JPanel();
         
@@ -47,8 +47,8 @@ public class VisualGame extends JPanel {
     private void updateCaptured(){
         if(capturedText != null)
             capturedPanel.remove(capturedText);
-        String text = BLACK + goBoard.getBlackCaptured();
-        text += ", " + WHITE + goBoard.getWhiteCaptured();
+        String text = BLACK + goBoard.getGoBoard().getBlackCaptured();
+        text += ", " + WHITE + goBoard.getGoBoard().getWhiteCaptured();
         capturedText = new JLabel(text);
         capturedPanel.add(capturedText);
     }
@@ -60,11 +60,12 @@ public class VisualGame extends JPanel {
 
     public void setListeners(List<GoMove> moves, MouseListener mouseListener) {
         this.visualBoard.setListeners(moves, mouseListener);
-        this.controlPanel.setListener(mouseListener);
+        this.controlPanel.setListeners(mouseListener);
     }
 
     public void removeListeners(List<GoMove> moves, MouseListener mouseListener) {
         this.visualBoard.removeListeners(moves, mouseListener);
         this.controlPanel.removeListener(mouseListener);
     }
+
 }

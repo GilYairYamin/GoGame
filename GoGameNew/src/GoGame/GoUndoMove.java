@@ -7,6 +7,11 @@ public class GoUndoMove extends GoMove {
 
     private List<int[]> removedSpots;
 
+    public GoUndoMove(GoUndoMove move){
+        this((GoMove)move);
+        this.removedSpots.addAll(move.removedSpots);
+    }
+
     public GoUndoMove(GoMove move) {
         super(move);
         removedSpots = new LinkedList<>();

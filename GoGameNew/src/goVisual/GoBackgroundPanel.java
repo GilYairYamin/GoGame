@@ -7,10 +7,8 @@ public class GoBackgroundPanel extends JPanel {
     private static final String GO_IMG_START = "images/";
     private static final String GO_IMG_END = ".png";
 
-    public static final String[] SIDE_STATE =
-            {"Left", "Middle", "Middle2", "Right"};
-    public static final String[] HEIGHT_STATE =
-            {"Top", "Middle", "Middle2", "Bottom"};
+    public static final String[] SIDE_STATE = { "Left", "Middle", "Middle2", "Right" };
+    public static final String[] HEIGHT_STATE = { "Top", "Middle", "Middle2", "Bottom" };
 
     public static final int LEFT = 0;
     public static final int MIDDLE = 1;
@@ -59,7 +57,7 @@ public class GoBackgroundPanel extends JPanel {
 
                 label.setIcon(pp);
                 label.setSize(PIC_SIZE, PIC_SIZE);
-                label.setBackground(Color.BLACK);
+                label.setBackground(Color.RED);
                 label.setOpaque(true);
                 label.setVisible(true);
                 this.add(label);
