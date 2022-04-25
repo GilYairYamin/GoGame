@@ -29,14 +29,14 @@ public class GoBoard implements GameInterface {
         this.undoStack = new Stack<>();
     }
 
-    public GoBoard(GoBoard other){
+    public GoBoard(GoBoard other) {
         this(other.board.length);
         this.copyBoardState(other);
         this.copyStack(other);
     }
 
     private void copyStack(GoBoard other) {
-        for(GoUndoMove undoMove: other.undoStack){
+        for (GoUndoMove undoMove : other.undoStack) {
             this.undoStack.add(new GoUndoMove(undoMove));
         }
     }
@@ -110,23 +110,24 @@ public class GoBoard implements GameInterface {
         boolean res = isGroupAlive(row, col);
         res = res || didCapture(row, col) && !isRepeat(row, col);
 
-        board[row][col] = GoGame.Tool.EMPTY;
+        board[row][col] = Tool.EMPTY;
         return res;
     }
 
-    private boolean isRepeat(int row, int col){
-        if(this.undoStack.isEmpty())
+    private boolean isRepeat(int row, int col) {
+        if (this.undoStack.isEmpty())
             return false;
 
         List<int[]> removedSpots = undoStack.peek().getRemovedSpots();
-        if(removedSpots.size() != 1)
+        if (removedSpots.size() != 1)
             return false;
 
         int[] arr = removedSpots.get(0);
-        if(row != arr[0] || col != arr[1])
+        if (row != arr[0] || col != arr[1])
             return false;
         return true;
     }
+
     private boolean didCapture(int row, int col) {
         int tempRow, tempCol;
         for (int[] dir : POSSIBLE_DIR) {
@@ -186,16 +187,19 @@ public class GoBoard implements GameInterface {
 
     @Override
     public boolean makeMove(GameMove m) {
-        if (!(m instanceof GoMove))
-            return false;
-        GoMove move = (GoMove) m;
-        return this.commitMove(move);
+        if (m instanceof GoMove)
+            return this.commitMove((GoMove) m);
+        return false;
+    }
+
+    public boolean makeMove(GoMove m) {
+        return this.commitMove(m);
     }
 
     private boolean commitMove(GoMove move) {
         if (!isMoveLegal(move))
             return false;
-        
+
         GoUndoMove undo;
         if (move.isPass()) {
             undo = new GoUndoMove(move);
@@ -248,8 +252,10 @@ public class GoBoard implements GameInterface {
 
     @Override
     public GameMove undoMove() {
-        if (undoStack.isEmpty())
+        if (undoStack.isEmpty()) {
             return null;
+        }
+
         GoUndoMove undo = undoStack.pop();
         if (undo.isPass()) {
             return new GoMove(undo.getTool());
@@ -271,9 +277,9 @@ public class GoBoard implements GameInterface {
 
     @Override
     public int evaluate(Player p) {
-        Tool t = playerToTool(p);
-        Tool enemy = t.getEnemy();
-        int eval = captured.get(t) - captured.get(enemy);
+        Tool player = playerToTool(p);
+        Tool enemy = player.getEnemy();
+        int eval = captured.get(player) - captured.get(enemy);
         return eval;
     }
 
@@ -286,7 +292,11 @@ public class GoBoard implements GameInterface {
     }
 
     public static GoGame.Tool playerToTool(Player p) {
-        return p == Player.PLAYER_1 ? GoGame.Tool.BLACK : GoGame.Tool.WHITE;
+        return switch (p) {
+            default -> null;
+            case PLAYER_1 -> Tool.BLACK;
+            case PLAYER_2 -> Tool.WHITE;
+        };
     }
 
     public String toString() {

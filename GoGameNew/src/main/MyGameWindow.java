@@ -52,9 +52,8 @@ public class MyGameWindow extends JFrame implements MouseListener {
         JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[MAX_DEPTH];
         
         for(int i = 0; i < buttons.length; i++){
-            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + i);
-
             final int x = i-1;
+            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + x);
             buttons[i].addActionListener(e -> {
                 goGameLoop.setBlackDepth(x);
             });
@@ -75,9 +74,8 @@ public class MyGameWindow extends JFrame implements MouseListener {
         JRadioButtonMenuItem[] buttons = new JRadioButtonMenuItem[MAX_DEPTH];
         
         for(int i = 0; i < buttons.length; i++){
-            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + i);
-
             final int x = i-1;
+            buttons[i] = new JRadioButtonMenuItem("Computer Depth " + x);
             buttons[i].addActionListener(e -> {
                 goGameLoop.setWhiteDepth(x);
             });

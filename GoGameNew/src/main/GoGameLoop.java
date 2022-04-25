@@ -15,7 +15,7 @@ public class GoGameLoop implements Runnable {
     public static final int REST_TIME = 50;
 
     public static final int HUMAN = -1;
-    public static final int MAX_DEPTH = 5;
+    public static final int MAX_DEPTH = 4;
 
     private boolean running;
     private GoBoard board;

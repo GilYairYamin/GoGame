@@ -28,7 +28,7 @@ public class ComputerPlayer extends GoPlayer {
     public GoMove getWantedMove() {
         GoBoard newBoard = new GoBoard(this.board);
         GenericGameTree t = new GenericGameTree(newBoard, GoBoard.toolToPlayer(this.tool), depth);
-        //System.out.println(t.printEval());
+        // System.out.println(t.printEval());
         return (GoMove) t.getBestMove();
     }
 }
