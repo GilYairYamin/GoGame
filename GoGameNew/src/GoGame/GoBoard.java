@@ -9,6 +9,7 @@ import java.util.*;
 public class GoBoard implements GameInterface {
 
     private HashMap<Tool, Integer> captured;
+    public static final int MAX_POSSIBLE_MOVES = 361;
 
     private Tool[][] board;
     private Stack<GoUndoMove> undoStack;
@@ -73,7 +74,7 @@ public class GoBoard implements GameInterface {
     }
 
     public List<GoMove> getPossibleMoves(Tool p) {
-        List<GoMove> res = new LinkedList<>();
+        List<GoMove> res = new ArrayList<>(MAX_POSSIBLE_MOVES);
         GoMove temp;
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board[i].length; j++) {

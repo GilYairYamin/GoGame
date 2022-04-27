@@ -71,8 +71,7 @@ public class GenericGameTree {
         for (int i = possibleMoves.size(); i > 0; i--)
             temp.add(possibleMoves.remove(rnd.nextInt(i)));
 
-        for (int i = temp.size(); i > 0; i--)
-            possibleMoves.add(temp.remove(rnd.nextInt(i)));
+        possibleMoves.addAll(temp);
     }
 
     public String printEval() {
