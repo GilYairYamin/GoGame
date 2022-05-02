@@ -9,7 +9,7 @@ public class GenericGameTree {
 
     public static final int MIN_POSSIBLE = Integer.MIN_VALUE + 10;
     public static final int MAX_POSSIBLE = Integer.MAX_VALUE - 10;
-    
+
     private GameInterface game;
     private Player currentTurn;
     private List<GameMove> possibleMoves;
@@ -27,10 +27,9 @@ public class GenericGameTree {
 
         this.eval = new int[this.possibleMoves.size()];
         int alpha = MIN_POSSIBLE;
-        int beta = MAX_POSSIBLE;
         int i = 0;
         for (GameMove move : possibleMoves) {
-            eval[i] = -negamax(move, depth, -beta, -alpha, currentTurn);
+            eval[i] = -negamax(move, depth, -MAX_POSSIBLE, -alpha, currentTurn);
             alpha = Math.max(alpha, eval[i]);
             i++;
         }
