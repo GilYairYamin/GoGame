@@ -1,6 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/.vscode
+/.idea
 
 # Compiled class file
 *.class
