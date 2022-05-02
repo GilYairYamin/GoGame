@@ -9,7 +9,7 @@ public class MyGameWindow extends JFrame implements MouseListener {
     public static final int DEFUALT_SIZE = 19;
     public static final int DEFAULT_BLACK_DEAPTH = -1;
     public static final int DEFAULT_WHITE_DEAPTH = 0;
-    public static final int MAX_DEPTH = GoGameLoop.MAX_DEPTH;
+    public static final int MAX_DEPTH = GoGameLoop.MAX_DEPTH + 1;
 
     private Thread gameThread;
     private GoGameLoop goGameLoop;

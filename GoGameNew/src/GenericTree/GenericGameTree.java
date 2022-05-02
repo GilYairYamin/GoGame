@@ -29,7 +29,7 @@ public class GenericGameTree {
         int alpha = MIN_POSSIBLE;
         int i = 0;
         for (GameMove move : possibleMoves) {
-            eval[i] = -negamax(move, depth, -MAX_POSSIBLE, -alpha, currentTurn);
+            eval[i] = -negamax(move, depth, MIN_POSSIBLE, -alpha, currentTurn);
             alpha = Math.max(alpha, eval[i]);
             i++;
         }

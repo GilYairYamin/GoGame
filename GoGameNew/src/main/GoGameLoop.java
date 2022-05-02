@@ -14,8 +14,8 @@ public class GoGameLoop implements Runnable {
 
     public static final int REST_TIME = 50;
 
-    public static final int HUMAN = -1;
-    public static final int MAX_DEPTH = 5;
+    public static final int HUMAN_DEPTH = -1;
+    public static final int MAX_DEPTH = 3;
 
     private boolean running;
     private GoBoard board;
@@ -50,7 +50,7 @@ public class GoGameLoop implements Runnable {
             } else {
                 move = white.getWantedMove();
             }
-            
+
             if (move.isUndo()) {
                 this.board.undoMove();
                 this.board.undoMove();
